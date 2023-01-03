@@ -1,0 +1,32 @@
+---
+version: "3.8"
+services:
+  telegraf:
+    image: telegraf:1.24.4-alpine
+    ports:
+      - 8125:8125/udp
+      - 9089:9089
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+
+  prometheus:
+    image: prom/prometheus:v2.40.7
+    depends_on:
+      - telegraf
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  grafana:
+    image: grafana/grafana:9.3.2
+    depends_on:
+      - prometheus
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Editor"
+    volumes:
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    ports:
+      - 3000:3000
