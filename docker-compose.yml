@@ -2,7 +2,7 @@
 version: "3.8"
 services:
   telegraf:
-    image: telegraf:1.24.4-alpine
+    image: telegraf:1.27-alpine
     ports:
       - 8125:8125/udp
       - 9089:9089
@@ -10,7 +10,7 @@ services:
       - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
   prometheus:
-    image: prom/prometheus:v2.40.7
+    image: prom/prometheus:v2.45.0
     depends_on:
       - telegraf
     ports:
@@ -19,7 +19,7 @@ services:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
 
   grafana:
-    image: grafana/grafana:9.3.2
+    image: grafana/grafana:10.1.1
     depends_on:
       - prometheus
     environment:
