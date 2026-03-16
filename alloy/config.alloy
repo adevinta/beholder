@@ -1,0 +1,8 @@
+logging {
+  level = "debug"
+}
+
+prometheus.exporter.statsd "statsd" {
+  listen_udp = ":8125"
+  listen_tcp = ":8125"
+}

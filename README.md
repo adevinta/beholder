@@ -12,13 +12,13 @@ To be able to:
 
 ## How it works?
 
-Just execute `docker-compose up -d` and then run your application making the datadog integration point to `localhost` (the port is the same, 8125).
+Just execute `docker compose up -d` and then run your application making the datadog integration point to `localhost` (the port is the same, 8125).
 
 Metrics scrapping happens every 5s. After that, you can check them in [http://localhost:3000/explore](http://localhost:3000/explore), selecting the `Prometheus` datasource, or using the [Metrics overview dashboard](http://localhost:3000/d/metrics-overview) provided.
 
 ### Metric name adjustments
 
-Given `prometheus`, the time series database used, doesn't allow metric names with dots (`.`) as DataDog does, `telegraf` automatically translate those dots to `_` when exporting metrics to prometheus format.
+Given `prometheus`, the time series database used, doesn't allow metric names with dots (`.`) as DataDog does, `alloy` automatically translate those dots to `_` when exporting metrics to prometheus format.
 
 ### How can I debug it?
 
@@ -28,8 +28,8 @@ From `bash`, you can execute the following command and send a custom metric to t
 echo -n "is_alive:1|g|#hostname:${HOSTNAME}" >/dev/udp/localhost/8125
 ```
 
-After 5 seconds, `prometheus` will scrape `telegraf` metrics and it should be shown in the grafana explore endpoint (see [above](#how-it-works)).
+After 5 seconds, `prometheus` will scrape `alloy` metrics and it should be shown in the grafana explore endpoint (see [above](#how-it-works)).
 
-If you need a fine grained debug, check [`telegraf` exposed metrics](http://localhost:9089/metrics), or directly [query `prometheus`](http://localhost:9090/graph).
+If you need a fine grained debug, check [`alloy` exposed metrics](http://localhost:12345/api/v0/component/prometheus.exporter.statsd.statsd/metrics), or directly [query `prometheus`](http://localhost:9090/graph).
 
 Check [documentation about PromQL to query prometheus](https://prometheus.io/docs/prometheus/latest/querying/basics/).

@@ -1,7 +1,9 @@
 ---
 scrape_configs:
-  - job_name: telegraf
+  - job_name: alloy
     scrape_interval: 5s 
+    metrics_path: >-
+      /api/v0/component/prometheus.exporter.statsd.statsd/metrics
     static_configs:
       - targets:
-        - telegraf:9089
+        - alloy:12345
